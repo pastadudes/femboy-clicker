@@ -1,0 +1,17 @@
+{
+	"name": "femboy-clicker-js",
+	"type": "module",
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite",
+		"preview": "vite preview",
+		"zip": "npm run build && mkdir -p dist && zip -r dist/game.zip dist -x \"**/.DS_Store\""
+	},
+	"dependencies": {
+		"kaplay": "^4000.0.0-alpha.27"
+	},
+	"devDependencies": {
+		"@types/node": "^25.6.0",
+		"vite": "^8.0.10"
+	}
+}
