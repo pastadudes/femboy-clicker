@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/femboy-clicker",
+  base: process.env.NODE_ENV === "production" ? "/femboy-clicker" : "./",
   server: {
     port: 3001,
   },
