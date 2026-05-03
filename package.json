@@ -1,5 +1,5 @@
 {
-	"name": "femboy-clicker-js",
+	"name": "femboy-clicker",
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
@@ -13,5 +13,8 @@
 	"devDependencies": {
 		"@types/node": "^25.6.0",
 		"vite": "^8.0.10"
+	},
+	"engines": {
+		"node": ">=24"
 	}
 }
