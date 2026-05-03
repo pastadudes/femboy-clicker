@@ -30,6 +30,8 @@
               typescript
               typescript-language-server
               nodejs
+              prettier
+              eslint
             ];
           };
         };
