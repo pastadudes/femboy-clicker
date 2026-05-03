@@ -1,8 +1,12 @@
 import kaplay from "kaplay";
+import stateActions from "./state";
+import setupShop from "./shop";
 
-const k = kaplay();
+const k = kaplay({
+  debugKey: "f2",
+  background: [255, 204, 255],
+});
 
-// k.loadRoot("./");
 k.loadSprite("astoflo", "sprites/astoflo.webp");
 
 const astofloSize = 1;
@@ -15,27 +19,32 @@ const cookie = k.add([
   k.scale(astofloSize),
 ]);
 
-let score = 0;
-const scoreLabel = k.add([k.text(score, { size: 48 }), k.pos(24, 24)]);
+const scoreLabel = k.add([
+  k.text(`score: ${stateActions.getCopy().clicks}`, { size: 48 }), 
+  k.pos(24, 24)
+]);
 
 cookie.onClick(() => {
-  score += 1;
-  scoreLabel.text = score;
+  const currentState = stateActions.getCopy();
+  stateActions.clickIncrement(currentState.clickPower);
 
   cookie.scale = k.vec2(astofloSize + astofloSize / 2);
   k.add([
-    k.text("+1", { size: 48 }),
+    k.text(`+${currentState.clickPower}`, { size: 48 }),
     k.pos(k.mousePos()),
     k.move(k.UP, 100),
     k.opacity(1),
     k.lifespan(0.5, { fade: 0.5 }),
   ]);
 
-  // placeholder
   k.addKaboom(k.mousePos(), { scale: 0.5 });
-}, "left");
+});
 
-// return astoflo to normal size every frame
 cookie.onUpdate(() => {
   cookie.scale = cookie.scale.lerp(k.vec2(astofloSize), k.dt() * 10);
+  
+  const liveState = stateActions.getCopy();
+  scoreLabel.text = `score: ${liveState.clicks}`;
 });
+
+setupShop(k);
