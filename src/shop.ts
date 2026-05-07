@@ -1,29 +1,29 @@
 import { KAPLAYCtx } from "kaplay";
-import stateActions from "./state";
+import stateActions from "./state.ts";
 
 interface ShopItem {
-  text: string,
-  cost: number,
-  action: (k: KAPLAYCtx) => void
+  text: string;
+  cost: number;
+  action: (k: KAPLAYCtx) => void;
 }
 
 const UPGRADES: ShopItem[] = [
   {
     text: "buy noobie autoclicker",
     cost: 10,
-    
+
     action(k) {
-      k.loop(1, () => stateActions.clickIncrement(1))
+      k.loop(1, () => stateActions.clickIncrement(1));
     },
   },
   {
     text: "buy smol autoclicker",
     cost: 100,
-    
+
     action(k) {
-      k.loop(1, () => stateActions.clickIncrement(5))
+      k.loop(1, () => stateActions.clickIncrement(5));
     },
-  }
+  },
 ];
 
 function setupShop(k: KAPLAYCtx) {
@@ -37,21 +37,25 @@ function setupShop(k: KAPLAYCtx) {
     k.fixed(),
   ]);
 
+  const shopHeight = k.height() - 40;
+  const itemSpacing = 50;
+  const startY = -shopHeight / 2 + 30;
+
   UPGRADES.forEach((upgrade, i) => {
     const btn = shop.add([
-      k.pos(-40, -400 + (i * 50)),
+      k.pos(-40, startY + i * itemSpacing),
       k.text(`${upgrade.text}: ${upgrade.cost}`, { size: 18 }),
       k.area(),
-      k.anchor("center")
+      k.anchor("center"),
     ]);
 
     btn.onClick(() => {
       if (stateActions.getCopy().clicks >= upgrade.cost) {
-	stateActions.clickIncrement(-upgrade.cost);
-	upgrade.action(k);
+        stateActions.clickIncrement(-upgrade.cost);
+        upgrade.action(k);
       }
     });
-  })
+  });
 }
 
 export default setupShop;

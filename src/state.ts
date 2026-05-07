@@ -1,6 +1,6 @@
 export interface State {
-  clicks: number,
-  clickPower: number
+  clicks: number;
+  clickPower: number;
 }
 
 const state: State = {
@@ -19,11 +19,11 @@ export const stateActions = {
     state.clickPower += amount;
   },
   clickPowerUpdate(newClickPower: number) {
-    state.clickPower = newClickPower
+    state.clickPower = newClickPower;
   },
   getCopy() {
     return { ...state };
-  }
+  },
 };
 
 export default stateActions;
