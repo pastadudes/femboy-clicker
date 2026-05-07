@@ -1,0 +1,31 @@
+{
+  "name": "femboy-clicker",
+  "version": "1.0.0",
+  "exports": "./src/main.ts",
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "dev": "deno run -A --node-modules-dir npm:vite",
+    "build": "deno run -A --node-modules-dir npm:vite build",
+    "preview": "deno run -A --node-modules-dir npm:vite preview",
+    "zip": "deno task build && zip -r dist/game.zip dist -x '**/.DS_Store'"
+  },
+  "imports": {
+    "jiti": "npm:jiti@^2.6.1",
+    "kaplay": "npm:kaplay@4000.0.0-alpha.27",
+    "vite": "npm:vite@^6.0.0"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "deno.ns"
+    ]
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true
+  }
+}

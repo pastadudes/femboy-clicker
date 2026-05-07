@@ -27,11 +27,7 @@
         {
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
-              typescript
-              typescript-language-server
-              nodejs
-              prettier
-              eslint
+              deno
             ];
           };
         };
