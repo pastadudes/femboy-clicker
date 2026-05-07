@@ -20,6 +20,7 @@ const cookie = k.add([
   k.anchor("center"),
   k.area(),
   k.scale(astofloSize),
+  k.rotate(0),
 ]);
 
 const scoreLabel = k.add([
@@ -29,6 +30,7 @@ const scoreLabel = k.add([
 
 cookie.onClick(() => {
   const currentState = stateActions.getCopy();
+  stateActions.clickIncrement(currentState.clickPower);
 
   k.add([
     k.text(`+${currentState.clickPower}`, { size: 48 }),
@@ -42,15 +44,25 @@ cookie.onClick(() => {
 });
 
 cookie.onMouseDown("left", () => {
-  if (cookie.isHovering()) cookie.scale = k.vec2(astofloSize + astofloSize / 2);
+  if (cookie.isHovering()) stateActions.setHolding(true);
 });
 
-// cookie.onMouseRelease("left", () => {
-//   cookie.scale = k.vec2(astofloSize);
-// })
+k.onMouseRelease("left", () => {
+  stateActions.setHolding(false);
+});
 
 cookie.onUpdate(() => {
-  cookie.scale = cookie.scale.lerp(k.vec2(astofloSize), k.dt() * 10);
+  if (stateActions.getCopy().holding) {
+    const dir = k.mousePos().sub(cookie.pos.add(k.vec2(0, 20)));
+    const targetAngle = dir.len() > 40
+      ? k.clamp(dir.angle() * (180 / Math.PI), -20, 20)
+      : 0;
+    cookie.angle = k.lerp(cookie.angle, targetAngle, k.dt() * 20);
+    cookie.scale = cookie.scale.lerp(k.vec2(astofloSize + astofloSize / 2), k.dt() * 20);
+  } else {
+    cookie.angle = k.lerp(cookie.angle, 0, k.dt() * 20);
+    cookie.scale = cookie.scale.lerp(k.vec2(astofloSize), k.dt() * 20);
+  }
 
   const liveState = stateActions.getCopy();
   scoreLabel.text = `score: ${liveState.clicks}`;
